@@ -1,9 +1,17 @@
-FROM php:8.2-cli
+# Use PHP 8.2 con Apache
+FROM php:8.2-apache
 
-WORKDIR /app
+# Habilitar mod_rewrite
+RUN a2enmod rewrite
 
-COPY business-report-bot /app
+# Instalar extensiones necesarias
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-EXPOSE 3000
+# Copiar los archivos de tu proyecto al servidor apache
+COPY . /var/www/html/
 
-CMD ["php", "-S", "0.0.0.0:3000", "index.php"]
+# Permisos
+RUN chown -R www-data:www-data /var/www/html
+
+# Exponer el puerto 80
+EXPOSE 80
