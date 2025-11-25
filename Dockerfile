@@ -2,7 +2,7 @@ FROM php:8.2-cli
 
 WORKDIR /app
 
-COPY . /app
+COPY business-report-bot /app
 
 EXPOSE 3000
 
