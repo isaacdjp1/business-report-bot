@@ -1,15 +1,18 @@
 FROM php:8.2-apache
 
-# Enable Apache rewrite
+# Enable Apache mods
 RUN a2enmod rewrite
 
-# Copy project files to Apache web root
-COPY . /var/www/html/
+# Install required PHP extensions
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-# Set permissions
+# Copy project files from the subfolder to Apache root
+COPY business-report-bot/ /var/www/html/
+
+# Set correct permissions
 RUN chown -R www-data:www-data /var/www/html
 
-# Expose default Apache port
+# Expose Apache port
 EXPOSE 80
 
 # Start Apache
